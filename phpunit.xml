@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/TestHelper.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         verbose="true"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true">
+
+    <testsuite name="Core">
+        <directory>./tests/core/ControllerBaseTest.php</directory>
+        <directory>./tests/core/TestCollectionRepositories.php</directory>
+        <directory>./tests/core/TestMongoLibrary.php</directory>
+        <directory>./tests/core/TestMyValidations.php</directory>
+    </testsuite>
+    
+    <!-- <testsuite name="Member">
+        <directory>./tests/member/MemberControllerTest.php</directory>
+        <directory>./tests/member/MemberRepositoryTest.php</directory>
+    </testsuite> -->
+
+    <filter>
+        <blacklist>
+            <directory>./vendor</directory>
+            <directory>./public</directory>
+            <directory>./tests</directory>
+        </blacklist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory>./core/Controllers</directory>
+            <directory>./core/Repositories</directory>
+            <directory>./core/Libraries</directory>
+            <directory>./core/Validations</directory>
+            <exclude>
+                <directory>./public/</directory>
+                <directory>./vendor/</directory>
+                <directory>./core/Controllers/ErrorController.php</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="./build/coverage" title="Api Portal"
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+</phpunit>

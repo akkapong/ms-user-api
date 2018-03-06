@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  mongo:
+    restart: always
+    image: mongo:3.4
+    tty: true
+    expose:
+      - "27017"
+    ports:
+      - "27001:27017"
+    volumes:
+      - ./docker/data:/data/db
+    container_name: ms-user-api-mongo
+
+  app:
+    image: akkapong/php-nginx-phalcon-mongo:latest
+    restart: always
+    tty: true
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx-sites:/etc/nginx/sites-available
+      - ./docker/nginx-sites:/etc/nginx/sites-enabled
+    depends_on:
+      - mongo
+    container_name: ms-user-api-app
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    restart: always
+    tty: true
+    ports:
+      - "801:8080"
+    volumes:
+      - .:/app
+    environment:
+        - SWAGGER_JSON=/app/swagger.json
+    container_name: ms-user-api-swagger
+
+volumes:
+  mongo:
+    driver: local
+  mariadb:
+    driver: local
